@@ -1,0 +1,5 @@
+.idea
+node_modules
+*.md
+!README.md
+!index.md
