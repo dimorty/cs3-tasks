@@ -7,4 +7,4 @@ function parseBinary(str) {
 	return parseInt(str.replace(/^0b|_/g, ''), 2) >> 0;
 }
 
-console.log(binary(20480))
+console.log(binary(614))
