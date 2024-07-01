@@ -47,27 +47,49 @@ class Vector {
       this.#realloc("down");
     }
   }
+
+  values() {
+    let current = this;
+    let index = -1;
+    return {
+      next() {
+        index++;
+        if (current.#data[index] && current.#data[index] !== 0) {
+          return { done: false, value: current.#data[index] };
+        }
+        return { done: true, value: undefined };
+      },
+    };
+  }
 }
 
-const vec = new Vector(Uint8Array, 4);
-vec.push(1); // Возвращает длину - 1
-vec.push(2); // 2
-vec.push(3); // 3
-vec.push(4); // 4
-vec.push(5); // 5 Увеличение буфера
-vec.push(6); // 6
-vec.push(7); // 7
-vec.push(8); // 8
-vec.push(9); // 9 Увеличение буфера
+const vec = new Vector(Uint16Array, 1);
 
-console.log(vec.capacity); // 16
-console.log(vec.length); // 9
+const i = vec.values();
 
-console.log(vec.pop());
-console.log(vec.capacity); // 16
+vec.push(11111); // Возвращает длину - 1
+vec.push(22222); // 2
+vec.push(33333); // 3
 
-vec.shrinkToFit(); // Новая емкость 8
-console.log(vec.capacity); // 8
-
-console.log(vec.length); // 8
-console.log(vec.buffer); // Ссылка на ArrayBuffer
+console.log(i.next()); // {done: false, value: 1}
+console.log(i.next()); // {done: false, value: 2}
+console.log(i.next()); // {done: false, value: 3}
+console.log(i.next()); // {done: true, value: undefined}
+// vec.push(4); // 4
+// vec.push(5); // 5 Увеличение буфера
+// vec.push(6); // 6
+// vec.push(7); // 7
+// vec.push(8); // 8
+// vec.push(9); // 9 Увеличение буфера
+//
+// console.log(vec.capacity); // 16
+// console.log(vec.length); // 9
+//
+// console.log(vec.pop());
+// console.log(vec.capacity); // 16
+//
+// vec.shrinkToFit(); // Новая емкость 8
+// console.log(vec.capacity); // 8
+//
+// console.log(vec.length); // 8
+// console.log(vec.buffer); // Ссылка на ArrayBuffer
